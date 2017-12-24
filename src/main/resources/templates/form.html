@@ -12,11 +12,9 @@
         <form action="#" th:action="@{/form}" method="POST">
             
             <!-- FIX_FLAW : Flaw_Csrf (Note that SecurityConfiguration.java must also be modified) -->
-            <!--
             <input type="hidden" 
                 th:name="${_csrf.parameterName}" 
                 th:value="${_csrf.token}" />
-            -->            
             
             <p><label for="name">Name</label>: <input type="text" name="name" id="name"/></p>
             <p><label for="address">Address</label>: <input type="text" name="address" id="address"/></p>

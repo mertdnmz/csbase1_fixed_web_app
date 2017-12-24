@@ -1,7 +1,6 @@
 package sec.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,18 +41,19 @@ public class SignupController {
      * @return 
      */
     @RequestMapping(value = "/signups/{id}", method = RequestMethod.GET)
-    @ResponseBody //Use Thymeleaf template to prevent injection. Comment out. FIX_FLAW : Flaw_Xss
+    //@ResponseBody //Use Thymeleaf template to prevent injection. Comment out. FIX_FLAW : Flaw_Xss
     public String viewInvitation(Authentication authentication, Model model, @PathVariable Long id) {
         
         Signup su = signupRepository.findOne(id);
         /*
         https://www.owasp.org/index.php/Top_10_2007-Insecure_Direct_Object_Reference
         FIX_FLAW : Flaw_Print_Others_Invitation
-        if (!authorizeInvitationAccess(su, authentication)) {
-            return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
-        }
         */
-        
+        if (!authorizeInvitationAccess(su, authentication)) {
+            return "redirect:/signups";
+        }
+
+        /*        
         //Developer's note : I don't like templates! What can go wrong...
         String name = su.getAccount().getUsername();
         String eventName = su.getName();
@@ -73,13 +73,11 @@ public class SignupController {
             "       <p>The event takes place at " + eventAddress + ".</p>" + 
             "    </body></html>";
         return html;//Use Thymeleaf template to prevent injection. Comment out. FIX_FLAW : Flaw_Xss
-        
+        */
         
         //Use Thymeleaf template to prevent injection. FIX_FLAW : Flaw_Xss
-        /*
         model.addAttribute("signup", su);
         return "invitation";  
-        */
     }
     
     /**
@@ -95,10 +93,9 @@ public class SignupController {
     @RequestMapping(value = "/signups/{id}", method = RequestMethod.DELETE)
     public String delete(Authentication authentication, @PathVariable Long id) {
         Signup su = signupRepository.findOne(id);
-//      if (authorizeInvitationAccess(su, authentication)) {//Function level access control. FIX_FLAW : Flaw_Delete_Signup
+        if (authorizeInvitationAccess(su, authentication)) {//Function level access control. FIX_FLAW : Flaw_Delete_Signup
             signupRepository.delete(id);            
-//      }
-
+        }
         return "redirect:/signups";
     }
     
