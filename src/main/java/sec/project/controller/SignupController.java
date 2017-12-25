@@ -73,7 +73,7 @@ public class SignupController {
             "       <p>The event takes place at " + eventAddress + ".</p>" + 
             "    </body></html>";
         return html;//Use Thymeleaf template to prevent injection. Comment out. FIX_FLAW : Flaw_Xss
-        */
+        */ 
         
         //Use Thymeleaf template to prevent injection. FIX_FLAW : Flaw_Xss
         model.addAttribute("signup", su);

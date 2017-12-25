@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         
-        //http.csrf().disable(); //Security misconfiguration. Comment out this line to fix. FIX_FLAW : Flaw_Csrf  Note that ${_csrf.token} must be added in the corresponding html, as an additional step.
+        //http.csrf().disable(); //Security misconfiguration. Comment out this line to fix. FIX_FLAW : Flaw_Csrf  Note that ${_csrf.token} must be added in the corresponding html, as an additional step. 
         
         // you can access the h2-console through /h2-console
         http.authorizeRequests()
